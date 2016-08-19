@@ -1,6 +1,8 @@
 package bn.com.onix.validation;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStream;
 import java.io.IOException;
 
 import javax.xml.parsers.DocumentBuilder;
@@ -8,6 +10,7 @@ import javax.xml.parsers.DocumentBuilderFactory;
 
 import org.w3c.dom.Document;
 import org.xml.sax.ErrorHandler;
+import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
 public class OnixFileValidator {
@@ -33,7 +36,7 @@ public class OnixFileValidator {
 			
 		        @Override
 			    public void error(SAXParseException exception) throws org.xml.sax.SAXException {
-			        // do something more useful in each of these handlers
+
 		        	OnixValidator.logError("ERROR!  Could not correctly parse ONIX file(" + CurrentOnixFile + ").");
 			        OnixValidator.logException(exception);
 			        OnixFileIsValid = false;
@@ -41,6 +44,7 @@ public class OnixFileValidator {
 		    
 			    @Override
 			    public void fatalError(SAXParseException exception) throws org.xml.sax.SAXException {
+			    	
 		        	OnixValidator.logError("ERROR!  Could not correctly parse ONIX file(" + CurrentOnixFile + ").");			    	
 			    	OnixValidator.logException(exception);
 			        OnixFileIsValid = false;
@@ -51,8 +55,22 @@ public class OnixFileValidator {
 			        exception.printStackTrace();
 			    }
 	        });
-		  
-		    Document doc = builder.parse(pOnixFile.getAbsolutePath());		        
+
+		    // NOTE: It is necessary to use an InputStream here since the file will remain registered as "locked"		    
+		    //       on Windows unless you take control and create a scope around its file handle
+		    try (InputStream onixFileStream = new FileInputStream(pOnixFile.getAbsolutePath())) {
+		        Document doc = builder.parse(onixFileStream);		        
+		    }
+	        catch (SAXException exception) {
+	        	OnixValidator.logError("ERROR!  Could not correctly parse ONIX file(" + CurrentOnixFile + ").");			    	
+		    	OnixValidator.logException(exception);	        	
+	            OnixFileIsValid = false;
+	        }
+	        catch (IOException exception) {
+	        	OnixValidator.logError("ERROR!  Could not correctly parse ONIX file(" + CurrentOnixFile + ").");			    	
+		    	OnixValidator.logException(exception);	        	
+	            OnixFileIsValid = false;
+	        }
 		}
 		
 		return OnixFileIsValid;
