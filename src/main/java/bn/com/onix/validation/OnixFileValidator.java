@@ -13,6 +13,10 @@ import org.xml.sax.ErrorHandler;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
+/**
+ * OnixFileValidator --- This simple class will validate a XML file against its respective DTD/XSD.
+ * @author    Aaron Kendall
+ */
 public class OnixFileValidator {
 
 	private static Object OnixFileLock = new Object();
