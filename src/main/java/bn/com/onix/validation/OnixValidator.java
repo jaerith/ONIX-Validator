@@ -25,6 +25,11 @@ import org.xml.sax.SAXException;
 import javax.xml.parsers.ParserConfigurationException;
 import javax.xml.stream.XMLStreamException;
 
+/**
+ * OnixValidator --- This program will do the work of validating a set of ONIX files found in a specific directory, 
+ *                   editing them when appropriate (like changing a HTTP URL for a DTD to a local URL).
+ * @author    Aaron Kendall
+ */
 public class OnixValidator {
 	
 	public static final char FS_SEP = File.separatorChar;
@@ -45,7 +50,14 @@ public class OnixValidator {
     private static Properties s_oProperties  = new Properties();
     
     public static Logger s_oSearchExtractLog = null;
-    	
+
+/**
+ * The main thread of this program
+ *
+ * @param  args the command line arguments given to the program
+ * @return      void
+ * @see         String
+ */	
 	public static void main(String[] args) {	
 		
 		boolean  bInitMembers     = true;
@@ -189,6 +201,17 @@ public class OnixValidator {
 		s_oSearchExtractLog.info("The ONIX Validator is complete.");		
 	}
 	
+/**
+ * Returns a PrintStream object that will be the proxy for making all relevant 
+ * output for the occurrence of an error.
+ * <p>
+ * This method will work as long as 'poLogger' endures during the life of the program.
+ *
+ * @param  poPrintStream IO stream to the new file, in which we are writing errors during this instance of the program
+ * @param  poLogger the general log file for the program
+ * @return the IO stream that now wraps all desired forms of output on the behalf of an error
+ * @see    PrintStream
+ */	
     public static PrintStream createErrorLoggingProxy(final PrintStream poPrintStream, final Logger poLogger) {
     	
         return new PrintStream(poPrintStream) {
