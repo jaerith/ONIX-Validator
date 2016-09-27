@@ -19,6 +19,10 @@ import org.apache.commons.io.*;
 import org.apache.commons.io.filefilter.*;
 import org.slf4j.Logger;
 
+/**
+ * OnixValidatorCommonCalls --- This class contains mainly common IO functions that are needed by this process.
+ * @author    Aaron Kendall
+ */
 public class OnixValidatorCommonCalls {
 	
 	public static boolean copyFile(String psSourceFile, String psTargetDir, String psTargetFile) 
@@ -78,28 +82,6 @@ public class OnixValidatorCommonCalls {
 	    }
 		
 		return bSuccess;
-    }
-
-    public static PrintStream createErrorLoggingProxy(final PrintStream poPrintStream, final Logger poLogger) {
-    	
-        return new PrintStream(poPrintStream) {
-        	
-            public void print(final String psLogMsg) {
-            	poPrintStream.print(psLogMsg);
-            	poLogger.error(psLogMsg);
-            }
-        };
-    }	
-	
-    public static PrintStream createInfoLoggingProxy(final PrintStream poPrintStream, final Logger poLogger) {
-    	
-        return new PrintStream(poPrintStream) {
-        	
-            public void print(final String psLogMsg) {
-            	poPrintStream.print(psLogMsg);
-            	poLogger.info(psLogMsg);
-            }
-        };
     }
     
 	public static boolean deleteDirectories(String psTargetDirectory, double dNumOfDaysThreshold) {
