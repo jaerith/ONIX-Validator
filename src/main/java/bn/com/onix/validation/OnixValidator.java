@@ -201,18 +201,18 @@ public class OnixValidator {
 		s_oSearchExtractLog.info("The ONIX Validator is complete.");		
 	}
 	
-/**
- * Returns a PrintStream object that will be the proxy for making all relevant 
- * output for the occurrence of an error.
- * <p>
- * This method will work as long as 'poLogger' endures during the life of the program.
- *
- * @param  poPrintStream IO stream to the new file, in which we are writing errors during this instance of the program
- * @param  poLogger the general log file for the program
- * @return the IO stream that now wraps all desired forms of output on the behalf of an error
- * @see    PrintStream
- */	
-    public static PrintStream createErrorLoggingProxy(final PrintStream poPrintStream, final Logger poLogger) {
+    /**
+     * Returns a PrintStream object that will be the proxy for making all relevant 
+	 * output for the occurrence of an error.
+	 * <p>
+	 * This method will work as long as 'poLogger' endures during the life of the program.
+	 *
+	 * @param  poPrintStream IO stream to the new file, in which we are writing errors during this instance of the program
+	 * @param  poLogger the general log file for the program
+	 * @return the IO stream that now wraps all desired forms of output on the behalf of an error
+	 * @see    PrintStream
+	 */	
+	public static PrintStream createErrorLoggingProxy(final PrintStream poPrintStream, final Logger poLogger) {
     	
         return new PrintStream(poPrintStream) {
         	
@@ -222,7 +222,18 @@ public class OnixValidator {
             }
         };
     }	
-	
+
+	/**
+	 * Returns a PrintStream object that will be the proxy for making all relevant 
+	 * output for the occurrence of an info (i.e., debug) message.
+	 * <p>
+	 * This method will work as long as 'poLogger' endures during the life of the program.
+	 *
+	 * @param  poPrintStream IO stream to the new file, in which we are writing info messages during this instance of the program
+	 * @param  poLogger the general log file for the program
+	 * @return the IO stream that now wraps all desired forms of output on the behalf of an info message
+	 * @see    PrintStream
+	 */		
     public static PrintStream createInfoLoggingProxy(final PrintStream poPrintStream, final Logger poLogger) {
     	
         return new PrintStream(poPrintStream) {
@@ -233,7 +244,7 @@ public class OnixValidator {
             }
         };
     }
-    
+
 	public static String getStackTrace(final Throwable throwable) {
 		
 	     final StringWriter sw = new StringWriter();
@@ -373,6 +384,20 @@ public class OnixValidator {
     	s_oSearchExtractLog.info(psInfoMsg);
     }
     
+	/**
+	 * Iterates through files (supposedly ONIX) specified in a directory, replacing the original URL 
+	 * mentioned in the DOCTYPE tag with an alternate one.
+	 * <p>
+	 * Since the EDITEUR organization no longer supports online validation (via DTD HTTP URLs pointing to their site), 
+	 * the onus is upon the validator to place the DTD files on a local drive.  However, upon creating ONIX files, 
+	 * vendors still place the HTTP URL in the DOCTYPE tag as a default value.  So, the validator must replace the default value
+	 * with a URL that points to a local copy of the DTD instead.
+	 *
+	 * @param  psInboxDir the directory that contains all of our ONIX files to validate
+	 * @param  psSearchUrl the substring of the URL to replace (Ex. "http://www.editeur.org/onix")
+	 * @param  psReplaceUrl the string to replace the specified substring (Ex. "Y:/onix_dtds")
+	 * @return None
+	 */		    
     private static void replaceDtdReferences(String psInboxDir, String psSearchUrl, String psReplaceUrl)
     		throws FileNotFoundException, IOException, XMLStreamException, Exception {
     	
@@ -425,6 +450,17 @@ public class OnixValidator {
 	    }    	
     }
     
+	/**
+	 * Iterates through files (supposedly ONIX) specified in a directory, validating each one in turn.
+	 * <p>
+	 * This function will validate each ONIX file (with respect to its specified DTD).  Valid files 
+	 * will be moved to a success directory while invalid files will be moved to a separate failed directory.
+	 *
+	 * @param  psInboxDir the directory that contains all of our ONIX files to validate
+	 * @param  psOutputDir the directory to which all valid ONIX files will be moved
+	 * @param  psFailedDir the directory to which all invalid ONIX files will be moved
+	 * @return None
+	 */		    
     private static void validateOnixFiles(String psInboxDir, String psOutputDir, String psFailedDir)
     		throws FileNotFoundException, IOException, XMLStreamException, ParserConfigurationException, SAXException {
         	
@@ -461,7 +497,14 @@ public class OnixValidator {
     		}
     	}    	
     }    
-    
+
+	/**
+	 * Ensures that the specified directory exists on the system.
+	 *
+	 * @param  psTargetDirectory the directory whose existence we wish to validate
+	 * @param  psTargetDesc an additional description about the directory for logging purposes
+	 * @return None
+	 */		        
 	private static void validateDirectory(String psTargetDirectory, String psTargetDesc) 
 			throws Exception {
 		
