@@ -24,6 +24,15 @@ public class OnixFileValidator {
 	private static boolean OnixFileIsValid = true;
 	private static String  CurrentOnixFile = "";
 	
+	/**
+	 * Does the majority of work in determining whether a specified ONIX file is valid or invalid.
+	 * <p>
+	 * In addition to indicating whether the ONIX file is valid or invalid, the method will log any errors on behalf of the caller.
+	 *
+	 * @param  pOnixFile the ONIX file that we are attempting to validate
+	 * @return the boolean that indicates whether the ONIX file is valid or invalid
+	 * @see    File
+	 */		
 	public static boolean ValidateFile(File pOnixFile) 
 			throws org.xml.sax.SAXException, java.io.IOException, javax.xml.parsers.ParserConfigurationException  {
 
