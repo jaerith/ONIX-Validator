@@ -255,6 +255,13 @@ public class OnixValidator {
 	     return sw.getBuffer().toString();
 	}
 	
+    /**
+	 * Attempts to initialize the member properties using the 'OnixValidate.properties' file in a specified directory.
+	 *
+	 * @param  psConfigDirectory Directory which supposedly contains the properties file
+	 * @return None
+	 * @see    IOException 
+	 */		
 	public static void initPropertiesFromFiles(String psConfigDirectory) 
 			throws IOException {
 		
@@ -267,6 +274,18 @@ public class OnixValidator {
 		}
     }
 
+    /**
+	 * Attempts to initialize the member properties in three prioritized attempts:
+	 *
+	 * 1.) From a properties file inside a config directory (specified by the ONIX_VALIDATE_CFG environment variable)
+	 * 2.) From the resources file bundled with the application
+	 * 3.) From a properties file inside a default config directory
+	 * <p>
+	 * #2 will be the most likely candidate used.
+	 *
+	 * @return None
+	 * @see    IOException 
+	 */		
 	public static void initMembers() 
 			throws IOException {
 		
