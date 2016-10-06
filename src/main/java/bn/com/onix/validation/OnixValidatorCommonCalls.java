@@ -25,6 +25,15 @@ import org.slf4j.Logger;
  */
 public class OnixValidatorCommonCalls {
 	
+	/**
+     * This function copies the file from the source directory to the target directory (and renamed as a different file).
+     *
+     * @param psSourceFile the file to copy
+     * @param psTargetDir the directory to which the file should be copied
+     * @param psTargetFile the new name of the file upon being copied	 
+     * @return boolean Indicates whether or not the copy happened successfully
+     * @see IOException
+     */	
 	public static boolean copyFile(String psSourceFile, String psTargetDir, String psTargetFile) 
 			throws IOException {
 		
@@ -47,7 +56,15 @@ public class OnixValidatorCommonCalls {
 		
 		return bSuccess;
 	}
-	
+
+	/**
+     * This function copies the files from the source directory to the target directory.
+     *
+     * @param psSourceDirectory the directory from which files should be copied
+     * @param psTargetDirectory the directory to which files should be copied
+     * @return boolean Indicates whether or not the copies happened successfully
+     * @see IOException
+     */		
 	public static boolean copyFilesToDirectory(String psSourceDirectory, String psTargetDirectory) 
 			throws IOException {
 		
@@ -83,7 +100,15 @@ public class OnixValidatorCommonCalls {
 		
 		return bSuccess;
     }
-    
+
+	/**
+     * This function deletes a directory (and any contained subdirectories), if they fit the 
+	 * age criteria specified.
+     *
+     * @param psTargetDirectory the directory intended for deletion
+     * @param dNumOfDaysThreshold the minimum age (in days) of directories that should be marked for deletion
+     * @return boolean Indicates whether or not the directories were deleted successfully
+     */		    
 	public static boolean deleteDirectories(String psTargetDirectory, double dNumOfDaysThreshold) {
 
 		boolean bSuccess = true;
