@@ -336,7 +336,13 @@ public class OnixValidator {
 	    
 		s_oSearchExtractLog.info(sbPropListing.toString());
 	}
-			
+
+    /**
+	 * Attempts to initialize the member properties from resource files packaged within the application.
+	 *
+	 * @return boolean Indicates whether or not the properties were successfully initialized
+	 * @see    IOException 
+	 */	
 	public static boolean initPropertiesFromResources() 
 			throws IOException {
 		
@@ -372,6 +378,11 @@ public class OnixValidator {
 		return bSuccess;
     }
 	
+	/**
+	 * Indicates whether or not the current platform is a Windows machine.
+	 *
+	 * @return boolean Indicates whether or not the properties were successfully initialized
+	 */	
 	public static boolean isWindows() {
         return (OS_NAME.indexOf("win") >= 0);
     }	
