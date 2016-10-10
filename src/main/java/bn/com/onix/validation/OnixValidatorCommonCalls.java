@@ -139,7 +139,14 @@ public class OnixValidatorCommonCalls {
 		
 		return bSuccess;		
 	}    
-	
+
+	/**
+     * This function deletes all files within a specific directory, if they fit the age criteria specified.	 
+     *
+     * @param psTargetDirectory the directory intended for deletion
+     * @param dNumOfDaysThreshold the minimum age (in days) of files that should be marked for deletion
+     * @return boolean Indicates whether or not the directories were deleted successfully
+     */	
 	public static boolean deleteFiles(String psTargetDirectory, double dNumOfDaysThreshold) {
 
 		boolean bSuccess = true;
@@ -171,6 +178,11 @@ public class OnixValidatorCommonCalls {
 		return bSuccess;		
 	}
 		
+	/**
+     * This function returns the amount of available memory (in megabytes) on the host system.	 
+     *
+     * @return long Indicates the amount of available memory
+     */	
 	public static long getAvailableMemoryMB() {
 		
 		long    nFreeMB  = 0;
@@ -180,7 +192,14 @@ public class OnixValidatorCommonCalls {
 	    
 	    return nFreeMB;
 	}	
-	
+
+	/**
+     * This function returns the stack trace of a Throwable instance (i.e., Exception).
+     *
+     * @param throwable the class containing the stack trace that we are interested in
+     * @return string Contains the stack trace of interest
+	 * @see Throwable
+     */		
 	public static String getStackTrace(final Throwable throwable) {
 		
 	     final StringWriter sw = new StringWriter();
@@ -191,6 +210,11 @@ public class OnixValidatorCommonCalls {
 	     return sw.getBuffer().toString();
 	}
 	
+    /**
+     * This function returns the amount of used memory (in megabytes) on the host system.	 
+     *
+     * @return long Indicates the amount of used memory
+     */	
 	public static long getUsedMemoryMB() {
 		
 		long    nUsedMB  = 0;
@@ -201,6 +225,12 @@ public class OnixValidatorCommonCalls {
 	    return nUsedMB;
 	}	
 	
+	/**
+     * This function creates a compressed version of the specified file.
+     *
+     * @param psInputFilepath the target file of which we want to create a compressed version
+     * @return None
+     */
 	public static void gzipIt(String psInputFilepath) {
 		 
 	     byte[] buffer = new byte[1024];
@@ -229,7 +259,14 @@ public class OnixValidatorCommonCalls {
 	    	OnixValidator.logError(OnixValidator.getStackTrace(ex));
 	    }
     }
-	
+
+	/**
+     * This function moves a directory from one parent directory to another.
+     *
+     * @param psSourceDirectory the directory intended for relocation
+     * @param psNewParentDirectory the new parent directory to host the 'psSourceDirectory' folder
+     * @return boolean Indicates whether or not the move happened successfully
+     */	
 	public static boolean moveDirectory(String psSourceDirectory, String psNewParentDirectory) 
 	    throws IOException {
 		
@@ -252,7 +289,14 @@ public class OnixValidatorCommonCalls {
 		
 		return bSuccess;		
 	}
-		
+
+	/**
+     * This function removes all files from a directory that have a certain file extension.
+     *
+     * @param psDirectory the directory intended to being purged
+     * @param psFileExtension the extension identifying all files to be removed from 'psDirectory'
+     * @return None
+     */		
 	public static void removeFiles(String psDirectory, String psFileExtension) {
 		
 		final String sFileExtension = psFileExtension;
@@ -271,6 +315,12 @@ public class OnixValidatorCommonCalls {
 	    }		
     }
 	
+    /**
+     * This function will block and wait (until completion or error) on each thread of the provided array.
+     *
+     * @param paThreads the threads on which this method will block
+     * @return None
+     */	
 	public static void waitOnThreads(ExecutorService[] paThreads) {
 		
 		for(int i=0; i < paThreads.length; i++) {
