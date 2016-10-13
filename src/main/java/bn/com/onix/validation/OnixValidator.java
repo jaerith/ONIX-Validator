@@ -52,7 +52,15 @@ public class OnixValidator {
     public static Logger s_oSearchExtractLog = null;
 
 /**
- * The main thread of this program
+ * This method is the main thread of the program.  After initializing its members via the *.properties files,
+ * it will operate in the following manner:
+ *
+ * 1.) It will iterate through the Inbox directory, examining each file and expecting that file to be an ONIX XML file:
+ *   a. )For that file, it will attempt to edit the DOCTYPE tag inside and point the DTD URL to a specified local directory.
+ *   b.) For that file, it will then attempt to validate.
+ *   c.) Valid files will go into the Output directory; invalid files will go into the Failed directory.
+ * 
+ * 2.) Any debug and error messages will be written to the specified log.
  *
  * @param  args the command line arguments given to the program
  * @return      void
