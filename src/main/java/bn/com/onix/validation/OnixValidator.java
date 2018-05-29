@@ -45,7 +45,8 @@ public class OnixValidator {
     
     private static boolean s_bDebug  = false;
     
-    private static int     s_mnPurgeLogsOlderThanNumDays = 7;
+    private static int  s_mnPurgeLogsOlderThanNumDays = 7;
+	private static int  s_mnMaxEntityCount            = 64000;
 
     private static Properties s_oProperties  = new Properties();
     
@@ -184,6 +185,17 @@ public class OnixValidator {
 	        catch (Exception e) {
 	        	s_mnPurgeLogsOlderThanNumDays = 30;
 	        }
+			
+		    try {
+		    	String sMaxEntityCount = s_oProperties.getProperty("maxEntityCount");
+		    	
+		    	s_mnMaxEntityCount = Integer.parseInt(sMaxEntityCount);
+		    	
+		    	System.setProperty("jdk.xml.entityExpansionLimit", sMaxEntityCount);
+		    }
+	        catch (Exception e) {
+	        	s_mnMaxEntityCount = 64000;
+	        }			
 		    
 		    if ((sLocalDtdRoot != null) && !sLocalDtdRoot.isEmpty()) {
 		    	
@@ -303,6 +315,7 @@ public class OnixValidator {
 		String sFailedDir    = "";
 		String sLocalDtdRoot = "";
 		String sPLNumOfDays  = "";
+		String sMaxEntityCnt = "64000";
 		File   oLocalCfgDir  = new File(CONST_DEFAULT_CFG_DIR);
 		
 		StringBuilder       sbPropListing = new StringBuilder("");
@@ -327,6 +340,7 @@ public class OnixValidator {
 		sFailedDir    = s_oProperties.getProperty("failedDir");
 		sLocalDtdRoot = s_oProperties.getProperty("localDtdRoot");
 		sPLNumOfDays  = s_oProperties.getProperty("purgeLogsOlderThanNumOfDays");
+		sMaxEntityCnt = s_oProperties.getProperty("maxEntityCount");
 
 		sbPropListing.append("\n----------\n");
 		sbPropListing.append("PROPERTIES:\n");
@@ -337,6 +351,7 @@ public class OnixValidator {
 		sbPropListing.append("Name(failedDir)          : (" + sFailedDir + ")\n");
 		sbPropListing.append("Name(localDtdRoot)       : (" + sLocalDtdRoot + ")\n");
 		sbPropListing.append("Name(purgeLogsOlderThanNumOfDays)    : (" + sPLNumOfDays + ")\n");
+		sbPropListing.append("Name(maxEntityCount)     : (" + sMaxEntityCnt + ")\r\n");
 		sbPropListing.append("");
 		sbPropListing.append("----------\n");
 		
